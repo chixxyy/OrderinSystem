@@ -55,6 +55,6 @@ npm run lint 代碼檢查
 ## 環境啟動步驟
 
 1. git clone 檔案
-2. cd VueProject
+2. cd OrderinSystem
 3. npm install
 4. npm run dev
