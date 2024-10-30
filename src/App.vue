@@ -4,7 +4,7 @@
     class="flex flex-col justify-between min-h-screen bg-white dark:bg-gray-900"
   >
     <header class="flex items-center justify-between p-6 mb-6 bg-blue-300 dark:bg-gray-700">
-      <h1 class="text-4xl font-bold text-red-500 dark:text-white">Hero Store</h1>
+      <h1 class="text-4xl font-bold text-red-500 dark:text-white">Order System</h1>
 
       <button
         @click="toggleDarkMode"
