@@ -5,6 +5,7 @@
 ## 專案設置
 
 ```sh
+
 npm install 安裝
 
 npm run dev 開發
@@ -50,3 +51,10 @@ npm run lint 代碼檢查
 - **Tailwind CSS**：CSS 框架，用於響應式設計，並且支援深色模式（Dark Mode）。
 - **SweetAlert2**：顯示互動式的彈窗，提供簡單的通知、確認和錯誤訊息。
 - **localStorage**：保存使用者的主題偏好（亮色或深色模式），在重新載入時保持一致。
+
+## 環境啟動步驟
+
+1. git clone 檔案
+2. cd VueProject
+3. npm install
+4. npm run dev
