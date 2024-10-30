@@ -40,7 +40,7 @@ export default {
           id: 1,
           name: '無線耳機',
           price: 1200,
-          image: '../../public/Earphone.jpg',
+          image: '/public/Earphone.jpg',
           description: '高音質無線耳機，適合日常使用和通勤。',
           maxQuantity: 10
         },
@@ -48,7 +48,7 @@ export default {
           id: 2,
           name: '無線滑鼠',
           price: 500,
-          image: '../../public/Mouse.jpg',
+          image: '/public/Mouse.jpg',
           description: '輕巧無線滑鼠，適合辦公與遊戲使用。',
           maxQuantity: 10
         },
@@ -56,7 +56,7 @@ export default {
           id: 3,
           name: '雙肩背包',
           price: 850,
-          image: '../../public/Backpack.jpg',
+          image: '/public/Backpack.jpg',
           description: '耐用雙肩背包，適合旅遊和上班族。',
           maxQuantity: 10
         }
