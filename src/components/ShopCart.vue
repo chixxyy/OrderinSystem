@@ -69,53 +69,56 @@
       </button>
     </footer>
 
-    <div
-      v-if="showSummary"
-      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
-    >
+    <div v-if="showOrderForm" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <section class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
-        <h2 class="mb-4 text-xl font-bold">訂單摘要</h2>
+        <h2 class="mb-4 text-xl font-bold">資料填寫</h2>
 
-        <ul>
-          <li v-for="product in cartItems" :key="product.id" class="mb-2">
-            {{ product.name }} (x{{ product.quantity }}) - {{ product.price * product.quantity }} 元
+        <ul class="mb-4">
+          <li v-for="product in cartItems" :key="product.id" class="flex justify-between">
+            <span>{{ product.name }} (x{{ product.quantity }})</span>
+            <span>{{ product.price * product.quantity }} 元</span>
           </li>
         </ul>
 
-        <p v-if="discountCode" class="mt-2 text-green-500">
-          優惠碼：{{ discountCode }}，節省 {{ appliedDiscount }} 元
+        <p class="mb-4 text-lg font-semibold text-right">
+            總價：<span class="text-blue-600">{{ finalPrice }} 元</span>
         </p>
 
-        <p class="mt-4 text-lg font-bold">最終金額：{{ finalPrice }} 元</p>
+        <form @submit.prevent="confirmCheckout">
+          <div class="mb-4">
+            <label for="name" class="block mb-1">姓名</label>
+            <input id="name" v-model="orderName" type="text" required class="w-full px-4 py-2 border rounded" />
+          </div>
 
-        <button
-          @click="confirmCheckout"
-          class="w-full py-2 mt-6 font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600"
-        >
-          確認結帳
-        </button>
+          <div class="mb-4">
+            <label for="phone" class="block mb-1">聯絡電話</label>
+            <input id="phone" v-model="orderPhone" type="tel" required class="w-full px-4 py-2 border rounded" />
+          </div>
+
+          <div class="mb-4">
+            <label for="address" class="block mb-1">地址</label>
+            <input id="address" v-model="orderAddress" type="text" required class="w-full px-4 py-2 border rounded" />
+          </div>
+
+          <div class="flex justify-between">
+            <button
+              type="submit"
+              class="w-full py-2 mt-4 mr-2 font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+            >
+              確認付款
+            </button>
+
+            <button
+              type="button"
+              @click="cancelOrder"
+              class="w-full py-2 mt-4 font-semibold text-white bg-gray-400 rounded-lg hover:bg-gray-500"
+            >
+              取消
+            </button>
+          </div>
+        </form>
       </section>
     </div>
-
-    <section v-if="recommendedProducts.length" class="mt-6">
-      <h3 class="mb-4 text-2xl font-semibold">選一個折扣商品</h3>
-      <ul class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-2">
-        <li
-          v-for="product in recommendedProducts"
-          :key="product.id"
-          class="p-4 bg-white rounded-lg shadow-md"
-        >
-          <h3 class="text-lg font-bold">{{ product.name }}</h3>
-          <p class="font-bold text-red-500">折{{ product.price }}元</p>
-          <button
-            @click="addDiscountedProductToCart(product)"
-            class="px-4 py-2 mt-2 text-white bg-blue-500 rounded"
-          >
-            加入購物車
-          </button>
-        </li>
-      </ul>
-    </section>
   </section>
 </template>
 
@@ -128,24 +131,22 @@ export default {
   setup() {
     const cartStore = useCartStore()
     const discountInput = ref('')
-    const showSummary = ref(false)
+    const showOrderForm = ref(false)
+    const orderName = ref('')
+    const orderPhone = ref('')
+    const orderAddress = ref('')
 
     const cartItems = computed(() => cartStore.items)
-    const finalPrice = computed(() => cartStore.finalPrice)
+    
+    const finalPrice = computed(() => {
+      const total = cartStore.totalPrice
+      const discount = cartStore.appliedDiscount
+      return Math.max(0, total - discount)
+    })
+
     const discountCode = computed(() => cartStore.discountCode)
     const appliedDiscount = computed(() => cartStore.appliedDiscount)
     const discountError = computed(() => cartStore.discountError)
-
-    const recommendedProducts = ref([
-      { id: 4, name: '無線滑鼠', price: 499 },
-      { id: 5, name: '無線耳機', price: 1099 }
-    ])
-
-    const hasDiscountProductInCart = computed(() => {
-      return cartItems.value.some((item) =>
-        recommendedProducts.value.some((product) => product.id === item.id)
-      )
-    })
 
     const applyDiscount = () => {
       cartStore.applyDiscountCode(discountInput.value)
@@ -182,7 +183,7 @@ export default {
     }
 
     const checkout = () => {
-      showSummary.value = true
+      showOrderForm.value = true
     }
 
     const confirmCheckout = () => {
@@ -194,41 +195,24 @@ export default {
           confirmButtonText: '了解',
           timer: 3000,
           timerProgressBar: true
-        }).then(() => {
-          showSummary.value = false
         })
         return
       }
 
-      cartStore.items = []
-      cartStore.discountCode = null
-      cartStore.appliedDiscount = 0
-      showSummary.value = false
+      cartStore.clearCart()
+      showOrderForm.value = false
       Swal.fire({
-        title: '結帳成功！',
-        text: '謝謝您的購買！',
+        title: '付款成功！',
+        text: `謝謝您的購買！`,
         icon: 'success',
         confirmButtonText: '好的',
         timer: 3000,
         timerProgressBar: true
-      }).then(() => {
-        showSummary.value = false
       })
     }
 
-    const addDiscountedProductToCart = (product) => {
-      if (hasDiscountProductInCart.value) {
-        Swal.fire({
-          title: '已添加折扣商品',
-          text: '您只能添加一個折扣商品。',
-          icon: 'warning',
-          confirmButtonText: '了解',
-          timer: 1500,
-          timerProgressBar: true
-        })
-      } else {
-        cartStore.addToCart(product)
-      }
+    const cancelOrder = () => {
+      showOrderForm.value = false
     }
 
     return {
@@ -244,12 +228,12 @@ export default {
       removeProduct,
       checkout,
       confirmCheckout,
-      showSummary,
-      recommendedProducts,
-      addDiscountedProductToCart
+      cancelOrder,
+      showOrderForm,
+      orderName,
+      orderPhone,
+      orderAddress
     }
   }
 }
 </script>
-
-<style scoped></style>

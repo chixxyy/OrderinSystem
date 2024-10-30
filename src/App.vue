@@ -15,9 +15,12 @@
     </header>
 
     <main>
-      <div class="flex flex-col justify-between md:flex-row">
+      <div v-if="showOrderForm" class="flex justify-center">
+        <OrderForm :productName="selectedProductName" @submit-order="handleOrderSubmit" />
+      </div>
+      <div v-else class="flex flex-col justify-between md:flex-row">
         <article class="w-full mb-8 md:w-2/3">
-          <ProductList @add-to-shopcart="addToCart" />
+          <ProductList @add-to-shopcart="addToCart" @buy-product="openOrderForm" />
         </article>
 
         <aside class="w-full md:w-1/3">
@@ -41,17 +44,20 @@
 import { ref } from 'vue'
 import ProductList from './components/ProductList.vue'
 import ShopCart from './components/ShopCart.vue'
+import OrderForm from './components/OrderForm.vue'
 import { useCartStore } from './stores/cartStore'
 
 export default {
   components: {
     ProductList,
-    ShopCart
+    ShopCart,
+    OrderForm
   },
   setup() {
     const cartStore = useCartStore()
-
     const isDarkMode = ref(false)
+    const showOrderForm = ref(false)
+    const selectedProductName = ref('')
 
     const toggleDarkMode = () => {
       isDarkMode.value = !isDarkMode.value
@@ -68,10 +74,24 @@ export default {
       cartStore.addToCart(product)
     }
 
+    const openOrderForm = (productName) => {
+      selectedProductName.value = productName
+      showOrderForm.value = true
+    }
+
+    const handleOrderSubmit = (order) => {
+      console.log('訂單提交成功:', order)
+      showOrderForm.value = false
+    }
+
     return {
       addToCart,
       isDarkMode,
-      toggleDarkMode
+      toggleDarkMode,
+      showOrderForm,
+      selectedProductName,
+      openOrderForm,
+      handleOrderSubmit
     }
   }
 }

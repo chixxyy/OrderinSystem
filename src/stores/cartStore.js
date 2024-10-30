@@ -82,7 +82,6 @@ export const useCartStore = defineStore('cart', () => {
     localStorage.removeItem('appliedDiscount')
   }
 
-  // Watchers to update localStorage automatically
   watch(items, (newItems) => {
     localStorage.setItem('cartItems', JSON.stringify(newItems))
   }, { deep: true })
