@@ -28,9 +28,8 @@ export const useCartStore = defineStore('cart', () => {
     if (discount) {
       discountCode.value = code
       discountError.value = null
-      appliedDiscount.value = discount.type === 'percentage'
-        ? (totalPrice.value * discount.value) / 100
-        : discount.value
+      appliedDiscount.value =
+        discount.type === 'percentage' ? (totalPrice.value * discount.value) / 100 : discount.value
       localStorage.setItem('discountCode', discountCode.value)
       localStorage.setItem('appliedDiscount', appliedDiscount.value.toString())
     } else {
@@ -82,9 +81,13 @@ export const useCartStore = defineStore('cart', () => {
     localStorage.removeItem('appliedDiscount')
   }
 
-  watch(items, (newItems) => {
-    localStorage.setItem('cartItems', JSON.stringify(newItems))
-  }, { deep: true })
+  watch(
+    items,
+    (newItems) => {
+      localStorage.setItem('cartItems', JSON.stringify(newItems))
+    },
+    { deep: true }
+  )
 
   watch(totalPrice, (newTotalPrice) => {
     if (discountCode.value) {

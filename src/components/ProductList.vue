@@ -37,21 +37,21 @@ export default {
         {
           id: 1,
           name: '無線耳機',
-          price: 1299,
+          price: 1200,
           image: 'https://picsum.photos/id/3/200',
           maxQuantity: 10
         },
         {
           id: 2,
           name: '無線滑鼠',
-          price: 599,
+          price: 500,
           image: 'https://picsum.photos/id/7/200',
           maxQuantity: 10
         },
         {
           id: 3,
           name: '雙肩背包',
-          price: 2799,
+          price: 850,
           image: 'https://picsum.photos/id/9/200',
           maxQuantity: 10
         }

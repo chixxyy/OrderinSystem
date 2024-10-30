@@ -69,7 +69,10 @@
       </button>
     </footer>
 
-    <div v-if="showOrderForm" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div
+      v-if="showOrderForm"
+      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+    >
       <section class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
         <h2 class="mb-4 text-xl font-bold">資料填寫</h2>
 
@@ -81,23 +84,41 @@
         </ul>
 
         <p class="mb-4 text-lg font-semibold text-right">
-            總價：<span class="text-blue-600">{{ finalPrice }} 元</span>
+          總價：<span class="text-blue-600">{{ finalPrice }} 元</span>
         </p>
 
         <form @submit.prevent="confirmCheckout">
           <div class="mb-4">
             <label for="name" class="block mb-1">姓名</label>
-            <input id="name" v-model="orderName" type="text" required class="w-full px-4 py-2 border rounded" />
+            <input
+              id="name"
+              v-model="orderName"
+              type="text"
+              required
+              class="w-full px-4 py-2 border rounded"
+            />
           </div>
 
           <div class="mb-4">
             <label for="phone" class="block mb-1">聯絡電話</label>
-            <input id="phone" v-model="orderPhone" type="tel" required class="w-full px-4 py-2 border rounded" />
+            <input
+              id="phone"
+              v-model="orderPhone"
+              type="tel"
+              required
+              class="w-full px-4 py-2 border rounded"
+            />
           </div>
 
           <div class="mb-4">
             <label for="address" class="block mb-1">地址</label>
-            <input id="address" v-model="orderAddress" type="text" required class="w-full px-4 py-2 border rounded" />
+            <input
+              id="address"
+              v-model="orderAddress"
+              type="text"
+              required
+              class="w-full px-4 py-2 border rounded"
+            />
           </div>
 
           <div class="flex justify-between">
@@ -137,7 +158,7 @@ export default {
     const orderAddress = ref('')
 
     const cartItems = computed(() => cartStore.items)
-    
+
     const finalPrice = computed(() => {
       const total = cartStore.totalPrice
       const discount = cartStore.appliedDiscount
