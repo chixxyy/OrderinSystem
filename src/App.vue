@@ -4,7 +4,7 @@
     class="flex flex-col justify-between min-h-screen bg-white dark:bg-gray-900"
   >
     <header class="flex items-center justify-between p-6 mb-6 bg-blue-300 dark:bg-gray-700">
-      <h1 class="text-4xl font-bold text-red-500 dark:text-white">Order System</h1>
+      <h1 class="text-4xl font-bold text-blue-600 dark:text-white">Order System</h1>
 
       <button
         @click="toggleDarkMode"
@@ -32,7 +32,7 @@
     <footer class="p-4 text-center text-gray-800 bg-blue-300 dark:bg-gray-700">
       <a
         href="https://github.com/chixxyy"
-        class="font-bold text-red-500 dark:text-blue-300 hover:underline"
+        class="font-bold text-blue-600 dark:text-white hover:underline"
       >
         <p>聯絡我</p>
       </a>

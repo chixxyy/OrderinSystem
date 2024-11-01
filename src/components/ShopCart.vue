@@ -53,7 +53,7 @@
     <p v-if="discountError" class="mt-2 text-red-500">{{ discountError }}</p>
 
     <p v-if="discountCode" class="mt-2 text-green-500">
-      已使用優惠碼：{{ discountCode }}，節省 {{ appliedDiscount }} 元
+      已使用優惠碼：{{ discountCode }}，折扣 {{ appliedDiscount }} 元
     </p>
 
     <p class="mt-4 text-lg font-semibold text-right">
